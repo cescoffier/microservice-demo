@@ -50,6 +50,9 @@ cmake-build-*/
 # IntelliJ
 out/
 
+# Netbeans
+nb*
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
