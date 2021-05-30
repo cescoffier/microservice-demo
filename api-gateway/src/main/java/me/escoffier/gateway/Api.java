@@ -40,4 +40,13 @@ public class Api {
                 ).log();
     }
 
+    // TEMP to test
+    @GET @Path("/hero")
+    public Uni<Hero> getHero(){
+        Uni<Hero> hero = heroes.getRandomHero();
+        return hero;
+        
+    }
+    
+    
 }

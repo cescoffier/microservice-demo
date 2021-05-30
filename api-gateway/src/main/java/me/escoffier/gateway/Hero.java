@@ -1,10 +1,14 @@
 package me.escoffier.gateway;
 
+import javax.json.bind.annotation.JsonbProperty;
 import me.escoffier.fight.FightServiceOuterClass;
+// import org.eclipse.microprofile.graphql.Name;
 
 public class Hero {
 
     public String name;
+    // @Name("image") // TODO: This should work, log a bug,for now using JsonB alternative 
+    @JsonbProperty("image")
     public String picture;
     public int level;
 
