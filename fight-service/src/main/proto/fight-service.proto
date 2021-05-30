@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_package = "me.escoffier.fight";
+
+package fight;
+
+service FightService {
+    rpc fight (Fighters) returns (Fight) {}
+}
+
+message Fighters {
+    Hero hero = 1;
+    Villain villain = 2;
+}
+
+message Hero {
+    string name = 1;
+    int32 level = 2;
+    string image = 3;
+}
+
+message Villain {
+    string name = 1;
+    int32 level = 2;
+    string image = 3;
+}
+
+message Fight {
+    string winner = 1;
+}
