@@ -2,8 +2,10 @@ package me.escoffier.gateway;
 
 import io.quarkus.grpc.GrpcClient;
 import io.smallrye.mutiny.Uni;
+import io.smallrye.reactive.messaging.MutinyEmitter;
 import me.escoffier.fight.FightServiceOuterClass;
 import me.escoffier.fight.MutinyFightServiceGrpc;
+import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.inject.Inject;
@@ -24,6 +26,9 @@ public class Api {
     @GrpcClient("fight-service")
     MutinyFightServiceGrpc.MutinyFightServiceStub fights;
 
+    @Channel("fights")
+    MutinyEmitter<Fight> emitter;
+
     @GET
     public Uni<Fight> fight() {
         Uni<Hero> hero = heroes.getRandomHero();
@@ -37,16 +42,9 @@ public class Api {
                         )
                                 .onItem()
                                 .transform(fight -> new Fight(tuple.getItem1(), tuple.getItem2(), fight.getWinner()))
-                ).log();
+                )
+                .onItem().call(f -> emitter.send(f))
+                .log();
     }
-
-    // TEMP to test
-    @GET @Path("/hero")
-    public Uni<Hero> getHero(){
-        Uni<Hero> hero = heroes.getRandomHero();
-        return hero;
-        
-    }
-    
     
 }

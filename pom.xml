@@ -15,6 +15,7 @@
         <module>villains-service</module>
         <module>fight-service</module>
         <module>api-gateway</module>
+        <module>stats-service</module>
     </modules>
 
 </project>
