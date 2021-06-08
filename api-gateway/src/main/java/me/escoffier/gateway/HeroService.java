@@ -17,7 +17,7 @@ import javax.inject.Inject;
 
 /**
  * GraphQL Client
- * @see https://quarkus.io/version/main/guides/smallrye-graphql-client
+ * See https://quarkus.io/version/main/guides/smallrye-graphql-client for details
  */
 @ApplicationScoped
 public class HeroService {
