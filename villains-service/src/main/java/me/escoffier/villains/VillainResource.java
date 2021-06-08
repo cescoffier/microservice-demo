@@ -8,14 +8,7 @@ import java.util.List;
 public class VillainResource {
 
     @GET
-    @Path("/random")
-    public Villain getRandomVillain() {
+    public Villain get() {
         return Villain.getRandomVillain();
     }
-
-    @GET
-    public List<Villain> getAllVillains() {
-        return Villain.listAll();
-    }
-
 }

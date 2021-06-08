@@ -10,7 +10,7 @@ public class Hero {
     public final int level;
     public final String image;
     public final List<String> powers;
-    private final String longName;
+    public final String longName;
 
     public Hero(String name, String longName, String image, List<String> powers, int level) {
         this.name = name;

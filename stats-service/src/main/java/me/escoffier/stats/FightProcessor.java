@@ -15,7 +15,6 @@ public class FightProcessor {
     @Outgoing("ratio")
     @Broadcast
     public WinRatio ratio(Fight f) {
-        System.out.println("Accumulating " + f);
         return ratio.accumulate(f);
     }
 
