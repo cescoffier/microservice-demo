@@ -2,18 +2,14 @@ package me.escoffier.gateway;
 
 import io.quarkus.grpc.GrpcClient;
 import io.smallrye.common.annotation.NonBlocking;
-import io.smallrye.graphql.client.NamedClient;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.reactive.messaging.MutinyEmitter;
 import me.escoffier.fight.FightService;
 import me.escoffier.fight.FightServiceOuterClass;
-import me.escoffier.fight.MutinyFightServiceGrpc;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.reactive.messaging.Channel;
-import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -23,7 +19,8 @@ public class Api {
     @RestClient
     VillainService villains;
 
-    @Inject HeroService heroes;
+    @RestClient
+    HeroService heroes;
 
     @GrpcClient("fight-service")
     FightService fight;
@@ -31,11 +28,9 @@ public class Api {
     @Channel("fights")
     MutinyEmitter<Fight> emitter;
 
-
-
     @GET
     public Uni<Fight> fight() {
-        Uni<Villain> villain = villains.getVillain();
+        Uni<Villain> villain = villains.getRandomVillain();
         Uni<Hero> hero = heroes.getRandomHero();
 
         return Uni.combine().all().unis(hero, villain).asTuple()
@@ -44,7 +39,7 @@ public class Api {
                     Villain v = tuple.getItem2();
 
                     return invokeFightService(fight, h, v);
-        })
+                })
                 .call(fight -> emitter.send(fight));
     }
 
@@ -58,8 +53,8 @@ public class Api {
 
         return fs.fight(fighters)
                 .onItem().transform(result -> {
-                        String winner = result.getWinner();
-                        return new Fight(hero, villain, winner);
-        });
+                    String winner = result.getWinner();
+                    return new Fight(hero, villain, winner);
+                });
     }
 }

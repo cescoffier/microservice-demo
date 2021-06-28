@@ -1,0 +1,27 @@
+                                                ┌─────────────────────┐
+                                                │                     │
+                                          HTTP  │   HEROES SERVICE    │      ┌───────┐
+                                  ┌─────────────►                     ├─────►│  DB   │
+                                  │             └─────────────────────┘      └───────┘
+                                  │                       Mutiny
+                                  │                       Hibernate Reactive
+                                  │             HTTP
+                                  │            ┌────────────────────┐
+     ┌────────────────┐           │            │                    │      ┌──────┐
+     │                │           │            │  VILLAINS SERVICE  ├─────►│  DB  │
+     │   API GATEWAY  ├───────────┴───────┬────►                    │      └──────┘
+     │                │                   │    └────────────────────┘
+     └─────┬──────────┘                   │             Kotlin Co-Routines
+           │  Fault-Tolerance             │             Hibernate Reactive
+           │  Mutiny                      │
+           │  Reactive Rest Client        │
+           │  gRPC Client                 │
+           │                              │
+           │                              │ gRPC
+    KAFKA  │                              │                  ┌─────────────────┐
+┌──────────▼──────┐                       │                  │                 │
+│                 │                       └─────────────────►│  FIGHT SERVICE  │
+│                 │                                          │                 │
+│  STATS SERVICE  │                                          └─────────────────┘
+│                 │                                                        gRPC
+└─────────────────┘

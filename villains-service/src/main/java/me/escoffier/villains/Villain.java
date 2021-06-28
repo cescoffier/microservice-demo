@@ -1,7 +1,7 @@
 package me.escoffier.villains;
 
-import io.quarkus.hibernate.orm.panache.Panache;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.reactive.panache.PanacheEntity;
+import io.smallrye.mutiny.Uni;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,14 +18,11 @@ public class Villain extends PanacheEntity {
     @Column(columnDefinition = "TEXT")
     public String powers;
 
-    public static Villain getRandomVillain() {
+    public static Uni<Villain> getRandomVillain() {
         Random random = new Random();
-        int count = (int) Villain.count();
-        int index = random.nextInt(count);
-        return Villain.findAll()
-                .page(index, 1)
-                .firstResult();
+        return Villain.count()
+                .onItem().transform(l -> random.nextInt(l.intValue()))
+                .onItem().transformToUni(index -> Villain.findAll().page(index, 1).firstResult());
     }
-
 
 }

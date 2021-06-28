@@ -1,27 +1,27 @@
 package me.escoffier.heroes;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import io.quarkus.hibernate.reactive.panache.PanacheEntity;
+import io.smallrye.mutiny.Uni;
 
-public class Hero {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import java.util.Random;
 
-    public final String name;
-    public final int level;
-    public final String image;
-    public final List<String> powers;
-    public final String longName;
+@Entity
+public class Hero extends PanacheEntity {
 
-    public Hero(String name, String longName, String image, List<String> powers, int level) {
-        this.name = name;
-        this.level = level;
-        this.image = image;
-        this.powers = powers;
-        this.longName = longName;
+    @Column(unique = true)
+    public String name;
+    public String otherName;
+    public int level;
+    public String picture;
+    @Column(columnDefinition = "TEXT")
+    public String powers;
+
+    public static Uni<Hero> getRandomHero() {
+        Random random = new Random();
+        return Hero.count()
+                .onItem().transform(l -> random.nextInt(l.intValue()))
+                .onItem().transformToUni(index -> Hero.findAll().page(index, 1).firstResult());
     }
-
-    public Hero(String name, String longName, String image, String powers, int level) {
-        this(name, longName, image, Arrays.stream(powers.split(",")).map(String::trim).collect(Collectors.toUnmodifiableList()), level);
-    }
-
 }

@@ -16,6 +16,6 @@ public interface VillainService {
     @Path("/")
     @NonBlocking
     @CircuitBreaker
-    Uni<Villain> getVillain();
+    Uni<Villain> getRandomVillain();
 
 }
