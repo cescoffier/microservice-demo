@@ -1,7 +1,6 @@
 package me.escoffier.gateway;
 
-import io.smallrye.common.annotation.NonBlocking;
-import io.smallrye.graphql.client.NamedClient;
+import io.smallrye.graphql.client.GraphQLClient;
 import io.smallrye.graphql.client.core.Document;
 import static io.smallrye.graphql.client.core.Field.field;
 import static io.smallrye.graphql.client.core.Document.document;
@@ -9,7 +8,6 @@ import static io.smallrye.graphql.client.core.Operation.operation;
 import io.smallrye.graphql.client.core.OperationType;
 import io.smallrye.graphql.client.dynamic.api.DynamicGraphQLClient;
 import io.smallrye.mutiny.Uni;
-import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,7 +21,7 @@ import javax.inject.Inject;
 public class HeroService {
 
     @Inject
-    @NamedClient("hero-service")
+    @GraphQLClient("hero-service")
     DynamicGraphQLClient qlClient;
 
     public Uni<Hero> getRandomHero() {
@@ -33,10 +31,10 @@ public class HeroService {
                         field("randomHero",
                                 field("name"),
                                 field("level"),
-                                field("image")
+                                field("picture:image")
                         )));
 
-        
+
         return qlClient.executeAsync(randomHero)
                 .onItem().transform(response -> response.getObject(Hero.class, "randomHero"));
     }

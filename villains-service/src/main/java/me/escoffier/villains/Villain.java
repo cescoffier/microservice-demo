@@ -1,6 +1,5 @@
 package me.escoffier.villains;
 
-import io.quarkus.hibernate.orm.panache.Panache;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 import javax.persistence.Column;
