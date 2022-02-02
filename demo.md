@@ -69,7 +69,7 @@ public class VillainResource {
 
 ## Heroes
 
-* GraphQL, already existing prooject
+* GraphQL, already existing project
 * Show `Hero` and `HeroRepository` - mention image vs. picture 
 * Create `me.escoffier.heroes.HeroesApi`:
 ```java
