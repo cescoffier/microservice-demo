@@ -13,7 +13,7 @@
 ## Villains
 
 ### Setup
-* Open https://code.quarkus.io/?g=org.example&a=villains-service&ne=true&e=resteasy-jackson&e=jdbc-postgresql&e=hibernate-orm-panache
+* Open https://code.quarkus.io/?g=org.example&a=villains-service&ne=true&e=resteasy-reactive-jackson&e=jdbc-postgresql&e=hibernate-orm-panache
 
 
 ### Development
